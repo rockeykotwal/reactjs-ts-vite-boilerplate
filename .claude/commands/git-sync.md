@@ -45,6 +45,8 @@ If `$ARGUMENTS` is empty or blank:
 
 Run: `git commit -m "<commit message from Step 4>"`
 
+**IMPORTANT:** Use only the commit message — do NOT append any `Co-Authored-By` trailer or attribution lines. The commit should show only the user's identity.
+
 - If commit succeeds: report the commit hash and message.
 - If commit fails (e.g. pre-commit hook error, nothing staged): show the error output clearly and STOP. Do not attempt to push.
 
