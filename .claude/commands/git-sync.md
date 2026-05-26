@@ -110,9 +110,40 @@ Run: `git pull origin <branch> --no-rebase`
 
 Run: `git push origin <branch>`
 
-- If push succeeds: report success with the branch name and latest commit hash (`git log -1 --oneline`).
+- If push succeeds: report success with the branch name and latest commit hash (`git log -1 --oneline`). Continue to Step 11.
 - If push fails with "rejected" or "non-fast-forward": this means remote moved again between fetch and push (rare race condition). Tell the user to run `/git-sync` again.
 - If push fails for any other reason: show the full error output.
+
+---
+
+## STEP 11 — Open Pull Request (non-main branches only)
+
+Only run this step if the branch from Step 2 is NOT `main`.
+
+Check if a PR already exists for this branch:
+
+Run: `gh pr list --head <branch> --state open --json number,url`
+
+**Case A — PR already exists:**
+- Report the existing PR URL to the user. Do not create a new one.
+
+**Case B — No PR exists:**
+- Create a new PR targeting `main`:
+
+Run:
+```
+gh pr create --title "<commit message from Step 4>" --base main --head <branch> --body "$(cat <<'EOF'
+## Summary
+- <one-line description of changes based on the diff>
+
+## Branch
+`<branch>` → `main`
+EOF
+)"
+```
+
+- Report the new PR URL to the user.
+- If `gh` is not installed or not authenticated: warn the user and skip silently.
 
 ---
 
@@ -122,6 +153,7 @@ After all steps, give the user a one-paragraph summary:
 - What was committed (message + hash)
 - Whether a pull happened
 - Whether the push succeeded
+- Whether a PR was created or already existed (include the URL), or was skipped because branch is main
 - If anything was skipped or failed, say why clearly
 
 Never silently skip a step. Always tell the user what you did and what happened.
