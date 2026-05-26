@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(cp *)",
+      "Bash(npm install *)",
+      "Bash(npx tailwindcss *)",
+      "Bash(npm run *)",
+      "Bash(npx shadcn@latest *)",
+      "Bash(npx husky *)",
+      "Bash(git init *)"
+    ]
+  }
+}
